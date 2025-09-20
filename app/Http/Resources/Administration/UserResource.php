@@ -15,14 +15,19 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // --- FIX IS HERE (Line 22) ---
+        // 1. Check if $this->status is null. If it is, default to false.
+        // 2. Explicitly cast the result to (bool) to satisfy the Enum's type hint.
+        $userStatus = (bool) ($this->status ?? false); 
+
         return [
             'id' => $this->id,
-            'user_name' => $this->user_name,
+            'full_name' => $this->full_name,
             'email' => $this->email,
-            'status' => UserStatus::fromBool($this->status)->getLabel(),
+            'status' => UserStatus::fromBool($userStatus)->getLabel(), // Use the safely cast variable
             'avatar' => $this->avatar,
-            'created_by' => $this->createdBy?->user_name ?? $this->created_by,
-            'updated_by' => $this->updatedBy?->user_name ?? $this->updated_by,
+            'created_by' => $this->createdBy?->full_name ?? $this->created_by,
+            'updated_by' => $this->updatedBy?->full_name ?? $this->updated_by,
             'role' => $this->roles?->first()?->name,
             'role_id' => $this->roles?->first()?->id,
             'permissions' => $this->getAllPermissions()->pluck('name'),
