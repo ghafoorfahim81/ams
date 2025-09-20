@@ -1,0 +1,16 @@
+{
+    "actions": {
+        "create": "{{resource}} جوړول",
+        "edit": "{{resource}} سمول",
+        "delete": "{{resource}} ړنګول",
+        "view": "{{resource}} کتل",
+        "list": "{{resource}} لیست کول"
+    },
+    "resources": {
+        "documents": "سند",
+        "user_management": "د کاروونکو مدیریت",
+        "administration": "اداره",
+        "reports": "راپورونه"
+    },
+    "Select_All": "ټول وټاکئ"
+}

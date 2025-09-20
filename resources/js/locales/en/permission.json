@@ -1,0 +1,16 @@
+{
+    "actions": {
+        "create": "Create {{resource}}",
+        "edit": "Edit {{resource}}",
+        "delete": "Delete {{resource}}",
+        "view": "View {{resource}}",
+        "view_list": "View List {{resource}}"
+    },
+    "resources": {
+        "documents": "Document",
+        "user_management": "User Management",
+        "administration": "Administration",
+        "reports": "Reports"
+    },
+    "Select_All": "Select All"
+}

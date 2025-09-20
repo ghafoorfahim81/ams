@@ -1,0 +1,84 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
+class RolePermissionSeeder extends Seeder
+{
+    public function run()
+    {
+
+        // Define resources
+        $resources = [
+            'documents',
+            'administration',
+            'user_management',
+            'reports',
+        ];
+
+        // Define actions
+        $actions = ['create', 'edit', 'view_list', 'delete', 'view'];
+
+        // Create permissions for each resource
+        $permissions = [];
+
+        foreach ($resources as $resource) {
+            if ($resource === 'reports') {
+                $permissions[] = 'view_list_reports'; // Only this action for reports
+            } else {
+                foreach ($actions as $action) {
+                    $permissions[] = "{$action}_{$resource}";
+                }
+            }
+        }
+
+        // Insert permissions into the database
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
+        // Create roles
+        $superAdmin = Role::firstOrCreate(['name' => 'super_admin']);
+        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $editor = Role::firstOrCreate(['name' => 'editor']);
+        $user = Role::firstOrCreate(['name' => 'user']);
+
+        // Assign all permissions to Super Admin
+        $superAdmin->givePermissionTo(Permission::all());
+
+        // Assign permissions to Admin (excluding restricted ones)
+        $adminPermissions = Permission::whereNotIn('name', [
+            'delete_user_management',
+            'create_administration',
+            'edit_administration',
+            'view_list_administration',
+            'delete_administration',
+        ])->get();
+        $admin->syncPermissions($adminPermissions);
+
+        // Assign limited permissions to Editor (only edit, view_list, and view)
+        $editorPermissions = Permission::where(function ($query) {
+            $query->where('name', 'like', 'edit_%')
+                ->orWhere('name', 'like', 'view_list_%')
+                ->orWhere('name', 'like', 'view_%');
+        })->where('name', '!=', 'view_list_reports')->get();
+        $editor->syncPermissions($editorPermissions);
+
+        // Assign minimal permissions to User (only view_list and view)
+        $userPermissions = Permission::where(function ($query) {
+            $query->where('name', 'like', 'view_list_%')
+                ->orWhere('name', 'like', 'view_%');
+        })->where('name', '!=', 'view_list_reports')->get();
+        $user->syncPermissions($userPermissions);
+
+        // Assign only 'view_list_reports' permission for reports to all roles
+        Permission::where('name', 'view_list_reports')->each(function ($permission) use ($admin, $editor, $user) {
+            $admin->givePermissionTo($permission);
+            $editor->givePermissionTo($permission);
+            $user->givePermissionTo($permission);
+        });
+    }
+}

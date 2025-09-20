@@ -1,0 +1,16 @@
+{
+    "actions": {
+        "create": "ایجاد {{resource}}",
+        "edit": "ویرایش {{resource}}",
+        "delete": "حذف {{resource}}",
+        "view": "مشاهده {{resource}}",
+        "list": "لیست {{resource}}"
+    },
+    "resources": {
+        "documents": "سند",
+        "user_management": "مدیریت کاربران",
+        "administration": "مدیریت",
+        "reports": "گزارش‌ها"
+    },
+    "Select_All": "انتخاب همه"
+}
