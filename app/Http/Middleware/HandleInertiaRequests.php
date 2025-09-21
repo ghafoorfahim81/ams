@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\{FollowupType, InoutFlag, SaderaWareda, Status, Type};
+use App\Enums\{Status, Type};
 use App\Http\Resources\Administration\{DocumentTypeResource, ExternalOrganizationResource, SecurityLevelResource};
 use App\Http\Resources\HR\{DirectorateResource, EmployeeResource};
 use App\Models\Administration\{DocumentType, ExternalOrganization, SecurityLevel};
@@ -65,24 +65,15 @@ class HandleInertiaRequests extends Middleware
 
     protected function getCachedEnumData(): array
     {
-        $locale = app()->getLocale();
 
         return [
             'types' => [
-                'data' => $this->cacheEnum(Type::class, "types_{$locale}"),
+                'data' => $this->cacheEnum(Type::class, "types"),
             ],
             'statuses' => [
-                'data' => $this->cacheEnum(Status::class, "statuses_{$locale}"),
-            ],
-            'inout_flags' => [
-                'data' => $this->cacheEnum(InoutFlag::class, "inout_flags_{$locale}"),
-            ],
-            'followup_types' => [
-                'data' => $this->cacheEnum(FollowupType::class, "followup_type_{$locale}"),
-            ],
-            'sader_waredas' => [
-                'data' => $this->cacheEnum(SaderaWareda::class, "sader_waredas_{$locale}"),
-            ],
+                'data' => $this->cacheEnum(Status::class, "statuses"),
+            ]
+
         ];
     }
 

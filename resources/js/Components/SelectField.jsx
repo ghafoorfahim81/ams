@@ -79,7 +79,7 @@ const SelectField = ({
             <Select
                 id={id}
                 onValueChange={(e) => handleChange(e, id)}
-                defaultValue={value}
+                value={value !== undefined && value !== null && value !== '' ? String(value) : undefined}
                 disabled={disabled}
             >
                 <SelectTrigger className="px-2 rtl:flex-row-reverse">
@@ -108,7 +108,7 @@ const SelectField = ({
                         currentItems.map((item) => (
                             <SelectItem
                                 className="rtl:flex-row-reverse rtl:text-right"
-                                value={item.id}
+                                value={String(item.id)}
                                 key={item.id}
                             >
                                 {item.name}

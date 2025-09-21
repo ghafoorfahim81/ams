@@ -10,6 +10,7 @@ import HighlightText from "@/Components/ui/HighlitText";
 import { Button } from "@/Components/ui/button";
 import { Edit } from "lucide-react";
 import DeleteDialog from "@/Components/DeleteDialog";
+import CancelDialog from "@/Components/CancelDialog";
 import AppPaginator from "./AppPaginator";
 import { cn, trans } from "@/lib/utils";
 import { Link } from "@inertiajs/react";
@@ -151,6 +152,27 @@ export default function DataTable({
                                                             {action.icon}
                                                         </Button>
                                                     </DeleteDialog>
+                                                );
+                                            }
+                                            if (
+                                                action.type === "cancel" &&
+                                                action.can
+                                            ) {
+                                                const statusValue = (row.status ?? "").toString().toLowerCase();
+                                                const isCanceled = statusValue === "canceled" || statusValue === "cancelled";
+                                                return (
+                                                    <CancelDialog
+                                                        key={index}
+                                                        onConfirm={() => action.onClick(row)}
+                                                    >
+                                                        <Button
+                                                            variant="icon"
+                                                            size="sm"
+                                                            disabled={isCanceled}
+                                                        >
+                                                            {action.icon}
+                                                        </Button>
+                                                    </CancelDialog>
                                                 );
                                             }
                                             return (

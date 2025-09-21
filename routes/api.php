@@ -9,5 +9,3 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Broadcast::routes(); // Automatically uses 'auth:sanctum' from the middleware group
 });
 
-
-Route::apiResource('services', App\Http\Controllers\Service\ServiceController::class);

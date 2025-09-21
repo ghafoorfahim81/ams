@@ -98,8 +98,14 @@ export function AppSidebar({ ...props }) {
                 canView: true,
             },
             {
-                name: trans("Services"),
+                name: "Services",
                 url: "/services",
+                icon: FileChartColumn,
+                canView: true,
+            },
+            {
+                name:  "Appointments" ,
+                url: "/appointments",
                 icon: FileChartColumn,
                 canView: true,
             },

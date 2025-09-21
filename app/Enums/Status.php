@@ -5,17 +5,17 @@ namespace App\Enums;
 enum Status: string
 {
     case Pending = 'pending';
-    case Ongoing = 'ongoing';
-    case Completed = 'completed';
-    case Rejected = 'rejected';
+    case Rescheduled = 'rescheduled';
+    case Canceled = 'canceled';
+    case Confirmed = 'confirmed';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::Pending => __('enums.pending'),
-            self::Ongoing => __('enums.ongoing'),
-            self::Completed => __('enums.completed'),
-            self::Rejected => __('enums.rejected'),
+            self::Pending => 'pending',
+            self::Rescheduled => 'rescheduled',
+            self::Canceled => 'canceled',
+            self::Confirmed => 'confirmed',
         };
     }
 

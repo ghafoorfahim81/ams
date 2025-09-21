@@ -33,18 +33,6 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/users/{user}/revoke-permission', [App\Http\Controllers\RolePermission\UserRolePermissionController::class, 'revokePermission']);
 
     // Administration
-    Route::resource('document-types', App\Http\Controllers\Administration\DocumentTypeController::class);
-    Route::resource('security-levels', App\Http\Controllers\Administration\SecurityLevelController::class);
-    Route::resource('external-organizations', App\Http\Controllers\Administration\ExternalOrganizationController::class);
-
-    // Documents
-    Route::resource('documents', App\Http\Controllers\Document\DocumentController::class);
-    Route::resource('trackers', App\Http\Controllers\Document\TrackerController::class);
-    Route::post('trackers/{tracker}/comment', [App\Http\Controllers\Document\TrackerController::class, 'storeComment'])->name('trackers.storecomment');
-    Route::put('trackers/comment/{comment}', [App\Http\Controllers\Document\TrackerController::class, 'updateComment'])->name('trackers.updatecomment');
-    Route::delete('trackers/comment/{comment}', [App\Http\Controllers\Document\TrackerController::class, 'deleteComment'])->name('trackers.deletecomment');
-
-    Route::post('documents/{action}/approve', [App\Http\Controllers\Document\ActionController::class, 'approveAction'])->name('documents.approveaction');
 
     Route::get('/get-locale', [LanguageController::class, 'getLocale'])->name('language.get');
     Route::get('/search-items', SearchController::class)->name('search.items');
@@ -54,9 +42,11 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/notifications/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead']);
 
     Route::get('/notifications/unread-count', [App\Http\Controllers\NotificationController::class, 'unreadCount']);
-    Route::post('actions/store', [App\Http\Controllers\Document\ActionController::class, 'store'])->name('actions.store');
 
     Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
+    Route::resource('appointments', App\Http\Controllers\Appointment\AppointmentController::class);
+    Route::post('/appointments/{appointment}/cancel', [App\Http\Controllers\Appointment\AppointmentController::class, 'cancel'])->name('appointments.cancel');
+    
     Route::get('/broadcast', function () {
         $message = 'Hello from the server';
         broadcast(new \App\Events\DocumentOverdue($message));
