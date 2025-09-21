@@ -40,8 +40,9 @@ export default function Index({ users }) {
     );
 
     const columns = [
+
         {
-            key: "user_name",
+            key: "full_name",
             header: trans("admin:Name"),
             cell: ({ row }) => {
                 const name = row.name;
