@@ -9,3 +9,6 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Broadcast::routes(); // Automatically uses 'auth:sanctum' from the middleware group
 });
 
+
+
+Route::apiResource('postal-codes', App\Http\Controllers\PostalCode\PostalCodeController::class);

@@ -6,23 +6,11 @@ import {
     SidebarHeader,
 } from "@/Components/ui/sidebar";
 import {
-    AudioWaveform,
-    BookOpen,
-    Bot,
-    Command,
-    Frame,
-    GalleryVerticalEnd,
-    Handshake,
-    HeartHandshake,
     LayoutDashboard,
-    Map,
-    PieChart,
-    Receipt,
-    Settings2,
-    SquareTerminal,
     User,
-    Users,
     FileChartColumn,
+    MapPinPlus,
+    CalendarCog
 } from "lucide-react";
 import { NavMain } from "./NavMain";
 import { trans } from "@/lib/utils";
@@ -106,7 +94,13 @@ export function AppSidebar({ ...props }) {
             {
                 name:  "Appointments" ,
                 url: "/appointments",
-                icon: FileChartColumn,
+                icon: CalendarCog,
+                canView: true,
+            },
+            {
+                name:  "Postal Codes" ,
+                url: "/postal-codes",
+                icon: MapPinPlus,
                 canView: true,
             },
         ],

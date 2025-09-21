@@ -45,8 +45,9 @@ Route::middleware('auth')->group(function (): void {
 
     Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
     Route::resource('appointments', App\Http\Controllers\Appointment\AppointmentController::class);
+    Route::resource('postal-codes', App\Http\Controllers\PostalCode\PostalCodeController::class);
     Route::post('/appointments/{appointment}/cancel', [App\Http\Controllers\Appointment\AppointmentController::class, 'cancel'])->name('appointments.cancel');
-    
+
     Route::get('/broadcast', function () {
         $message = 'Hello from the server';
         broadcast(new \App\Events\DocumentOverdue($message));

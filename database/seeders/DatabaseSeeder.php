@@ -3,12 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Database\Seeders\Administration\DocumentTypeSeeder;
-use Database\Seeders\Administration\SecurityLevelSeeder;
 use Database\Seeders\Service\ServiceSeeder;
 use Database\Seeders\Appointment\AppointmentSeeder;
+use Database\Seeders\PostalCode\PostalCodeSeeder;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,7 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionSeeder::class,
             ServiceSeeder::class,
-            AppointmentSeeder::class
+            AppointmentSeeder::class,
+            PostalCodeSeeder::class
         ]);
 
         $user->assignRole('super_admin');

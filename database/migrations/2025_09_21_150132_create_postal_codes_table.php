@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('postal_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('postal_code')->unique();
-            $table->boolean('is_permitted')->default(true); // Can be used for service area validation 
+            $table->string('code')->unique();
+            $table->string('region_name')->nullable();
+            $table->boolean('is_permitted')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
