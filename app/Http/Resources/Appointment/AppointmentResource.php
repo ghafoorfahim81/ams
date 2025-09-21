@@ -29,6 +29,16 @@ class AppointmentResource extends JsonResource
             'notes' => $this->notes,
             'canceled_at' => $this->canceled_at,
             'canceled_by' => $this->canceled_by,
+            'participants' => $this->whenLoaded('participants', function () {
+                return $this->participants->map(function ($p) {
+                    return [
+                        'id' => $p->id,
+                        'full_name' => $p->full_name ?? null,
+                        'relationship' => $p->relationship ?? null,
+                        'identification_number' => $p->identification_number ?? null,
+                    ];
+                });
+            }),
         ];
     }
 }

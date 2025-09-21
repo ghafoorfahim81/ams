@@ -175,6 +175,21 @@ export default function DataTable({
                                                     </CancelDialog>
                                                 );
                                             }
+                                            if (
+                                                action.type === "view" &&
+                                                action.can
+                                            ) {
+                                                return (
+                                                    <Button
+                                                        key={index}
+                                                        variant="icon"
+                                                        size="sm"
+                                                        onClick={() => action.onClick(row)}
+                                                    >
+                                                        {action.icon}
+                                                    </Button>
+                                                );
+                                            }
                                             return (
                                                 action.can &&
                                                 (action.url ? (

@@ -9,13 +9,13 @@ import ServiceDialog from "./ServiceDialog.jsx";
 import { Link } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button.jsx";
 import DataTable from "@/Components/DataTable.jsx";
-import { Edit, Trash, Ban } from "lucide-react";
+import { Edit, Trash, Ban, Eye } from "lucide-react";
 import { trans } from "@/lib/utils.js";
 import SearchResultCount from "@/Components/SearchResultCount.jsx";
 import { useSort } from "@/hooks/use-sort.js";
 import {usePermissions} from "@/hooks/use-permissions.js";
 import PageHeader from "@/Components/PageHeader.jsx";
-
+import AppointmentDetailsDialog from "./AppointmentDetailsDialog.jsx";
 export default function Index({ appointments }) {
 
     const { url } = usePage();
@@ -50,6 +50,12 @@ export default function Index({ appointments }) {
     function handleCancel(appointment) {
         toast({ title: "Appointment Canceled Successfully" });
         router.post(route("appointments.cancel", appointment.id));
+    }
+    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+    function handleView(appointment) {
+        setSelectedAppointmentId(appointment.id);
+        setDetailsOpen(true);
     }
     const validLinks = appointments.meta?.links?.filter(link => link !== null && link.url !== null) ?? [];
 
@@ -102,6 +108,12 @@ export default function Index({ appointments }) {
                             can: hasPermission("edit_appointments"),
                         },
                         {
+                            type: "view",
+                            icon: <Eye className="text-gray-700" />,
+                            onClick: (row) => handleView(row),
+                            can: true,
+                        },
+                        {
                             type: "delete",
                             icon: <Trash className="text-red-600" />,
                             deleteUrl: (row) =>
@@ -125,6 +137,11 @@ export default function Index({ appointments }) {
                     searchTerm={searchTerm}
                     onSort={handleSort}
                     sortBy={sortBy}
+                />
+                <AppointmentDetailsDialog
+                    isOpen={detailsOpen}
+                    onOpenChange={setDetailsOpen}
+                    appointmentId={selectedAppointmentId}
                 />
             </div>
 
