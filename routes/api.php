@@ -12,3 +12,6 @@ Route::middleware('auth:sanctum')->group(function (): void {
 
 
 Route::apiResource('postal-codes', App\Http\Controllers\PostalCode\PostalCodeController::class);
+
+
+Route::apiResource('holidays', App\Http\Controllers\Holiday\HolidayController::class);

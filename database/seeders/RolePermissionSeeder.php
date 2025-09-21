@@ -21,6 +21,7 @@ class RolePermissionSeeder extends Seeder
             'appointments',
             'slots',
             'postal_codes',
+            'holidays',
         ];
 
         // Define actions
@@ -76,6 +77,10 @@ class RolePermissionSeeder extends Seeder
             'edit_postal_codes',
             'view_list_postal_codes',
             'delete_postal_codes',
+            'create_holidays',
+            'edit_holidays',
+            'view_list_holidays',
+            'delete_holidays',
         ])->get();
         $admin->syncPermissions($adminPermissions);
 

@@ -103,6 +103,12 @@ export function AppSidebar({ ...props }) {
                 icon: MapPinPlus,
                 canView: true,
             },
+            {
+                name:  "Holidays" ,
+                url: "/holidays",
+                icon: CalendarCog,
+                canView: true,
+            },
         ],
     };
     return (
