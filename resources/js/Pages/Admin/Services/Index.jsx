@@ -154,10 +154,10 @@ export default function Index({ services }) {
                     columns={[
                         { key: "name", header: "Name" },
                         { key: "duration", header: "Duration" },
-                        { key: "capacity_per_slot", header: "Capacity Per Slot" },
-                        { key: "is_active", header: "Is Active" },
+                        { key: "capacity_per_slot", header: "Capacity" },
+                        { key: "is_active", header: "Status" },
                         { key: "description", header: "Description" },
-                        { key: "is_emergency", header: "Is Emergency" },
+                        { key: "is_emergency", header: "Emergency?" },
                     ]}
                     actions={[
                         {

@@ -17,9 +17,9 @@ class ServiceResource extends JsonResource
             'name' => $this->name,
             'duration' => $this->duration,
             'capacity_per_slot' => $this->capacity_per_slot,
-            'is_active' => $this->is_active,
+            'is_active' => $this->is_active ? trans("Active") : trans("Inactive"),
             'description' => $this->description,
-            'is_emergency' => $this->is_emergency,
+            'is_emergency' => $this->is_emergency ? trans("Yes") : trans("No"),
         ];
     }
 }

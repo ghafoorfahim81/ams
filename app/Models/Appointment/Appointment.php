@@ -90,6 +90,6 @@ class Appointment extends Model
 
     public function participants()
     {
-        return $this->hasMany(AppointmentParticipant::class);
+        return $this->hasMany(\App\Models\Appointment\AppointmentParticipant::class);
     }
 }

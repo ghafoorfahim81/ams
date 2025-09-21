@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Appointment;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,14 +13,14 @@ class AppointmentParticipant extends Model
     protected $fillable = [
         'appointment_id',
         'full_name',
+        'relationship',
         'identification_number',
-        'relation_to_applicant',
     ];
 
     // --- Relationships ---
 
     public function appointment(): BelongsTo
     {
-        return $this->belongsTo(Appointment::class);
+        return $this->belongsTo(\App\Models\Appointment\Appointment::class);
     }
 }
