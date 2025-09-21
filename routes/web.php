@@ -56,17 +56,18 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/notifications/unread-count', [App\Http\Controllers\NotificationController::class, 'unreadCount']);
     Route::post('actions/store', [App\Http\Controllers\Document\ActionController::class, 'store'])->name('actions.store');
 
+    Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
     Route::get('/broadcast', function () {
         $message = 'Hello from the server';
         broadcast(new \App\Events\DocumentOverdue($message));
 
         return response()->json(['message' => 'Broadcasting event']);
     });
-    Route::fallback(fn () => response()->json([
+    Route::fallback(fn() => response()->json([
         'message' => 'Route Not Found, Please check the URL and try again',
     ], 404));
 });
 
 Route::post('/switch-locale', [LanguageController::class, 'switch'])->name('language.switch');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

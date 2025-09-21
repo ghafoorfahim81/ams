@@ -97,7 +97,12 @@ export function AppSidebar({ ...props }) {
                 icon: LayoutDashboard,
                 canView: true,
             },
-            
+            {
+                name: trans("Services"),
+                url: "/services",
+                icon: FileChartColumn,
+                canView: true,
+            },
         ],
     };
     return (

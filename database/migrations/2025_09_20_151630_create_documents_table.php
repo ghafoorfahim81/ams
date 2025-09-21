@@ -15,7 +15,7 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('appointment_id');
+            // $table->unsignedBigInteger('appointment_id');
             $table->string('file_path');
             $table->string('file_name');
             $table->string('file_mime_type');
@@ -23,7 +23,7 @@ class CreateDocumentsTable extends Migration
             $table->softDeletes();
 
 
-            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
+            // $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
         });
     }
 

@@ -7,7 +7,7 @@ const NavbarHeader = () => {
             <h1 className="mx-3 text-lg font-bold text-primary">
                 {trans("app:Navbar_Text")}
             </h1>
-            <img src=" " alt="logo" className="rounded-md w-14 ms-4" />
+            <img src="" alt="logo" className="rounded-md w-14 ms-4" />
         </div>
     );
 };

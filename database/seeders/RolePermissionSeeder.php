@@ -17,6 +17,10 @@ class RolePermissionSeeder extends Seeder
             'administration',
             'user_management',
             'reports',
+            'services',
+            'appointments',
+            'slots',
+            'postal_codes',
         ];
 
         // Define actions
@@ -56,6 +60,22 @@ class RolePermissionSeeder extends Seeder
             'edit_administration',
             'view_list_administration',
             'delete_administration',
+            'create_services',
+            'edit_services',
+            'view_list_services',
+            'delete_services',
+            'create_appointments',
+            'edit_appointments',
+            'view_list_appointments',
+            'delete_appointments',
+            'create_slots',
+            'edit_slots',
+            'view_list_slots',
+            'delete_slots',
+            'create_postal_codes',
+            'edit_postal_codes',
+            'view_list_postal_codes',
+            'delete_postal_codes',
         ])->get();
         $admin->syncPermissions($adminPermissions);
 

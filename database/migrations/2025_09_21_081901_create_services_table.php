@@ -11,17 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->integer('duration_minutes');
-            $table->unsignedSmallInteger('appointment_capacity'); // Per slot capacity 
-            $table->boolean('is_emergency')->default(false);
+            $table->string('name')->unique();
+            $table->integer('duration');
+            $table->integer('capacity_per_slot');
             $table->boolean('is_active')->default(true);
+            $table->text('description')->nullable();
+            $table->boolean('is_emergency')->default(false);
+            $table->integer('created_by')->constraint('users');
+            $table->integer('updated_by')->constraint('users');
             $table->timestamps();
-            $table->softDeletes();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

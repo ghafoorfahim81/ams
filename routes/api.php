@@ -8,3 +8,6 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Route::post('/notifications/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead']);
     Broadcast::routes(); // Automatically uses 'auth:sanctum' from the middleware group
 });
+
+
+Route::apiResource('services', App\Http\Controllers\Service\ServiceController::class);
