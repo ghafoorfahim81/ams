@@ -13,8 +13,6 @@ class RolePermissionSeeder extends Seeder
 
         // Define resources
         $resources = [
-            'documents',
-            'administration',
             'user_management',
             'reports',
             'services',
@@ -22,6 +20,7 @@ class RolePermissionSeeder extends Seeder
             'slots',
             'postal_codes',
             'holidays',
+            'audits',
         ];
 
         // Define actions
@@ -81,6 +80,10 @@ class RolePermissionSeeder extends Seeder
             'edit_holidays',
             'view_list_holidays',
             'delete_holidays',
+            'create_audits',
+            'edit_audits',
+            'view_list_audits',
+            'delete_audits',
         ])->get();
         $admin->syncPermissions($adminPermissions);
 
