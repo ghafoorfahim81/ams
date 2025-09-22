@@ -111,6 +111,7 @@ export default function Edit({ appointment, services, types, statuses }) {
                                 type="date"
                                 className="mt-1 w-full border rounded px-3 py-2"
                                 value={data.scheduled_date}
+                                label="Scheduled date"
                                 handleChange={handleChange}
                             />
                             {errors.scheduled_date && (
@@ -118,7 +119,6 @@ export default function Edit({ appointment, services, types, statuses }) {
                             )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium">{trans("Start time")}</label>
                             <InputField
                                 id="start_time"
                                 type="time"
