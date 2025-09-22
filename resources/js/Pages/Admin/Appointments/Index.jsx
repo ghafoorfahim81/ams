@@ -16,7 +16,8 @@ import { useSort } from "@/hooks/use-sort.js";
 import {usePermissions} from "@/hooks/use-permissions.js";
 import PageHeader from "@/Components/PageHeader.jsx";
 import AppointmentDetailsDialog from "./AppointmentDetailsDialog.jsx";
-export default function Index({ appointments }) {
+import AppointmentFilter from "./AppointmentFilter.jsx";
+export default function Index({ appointments, statusOptions = [], services = [], users = [] }) {
 
     const { url } = usePage();
     const { hasPermission } = usePermissions();
@@ -62,7 +63,13 @@ export default function Index({ appointments }) {
     return (
         <AuthenticatedLayout
             header={
-                <div className="flex items-center justify-between">
+                <div >
+                    <div className="w-full">
+                        <div className="mb-6">
+                            <AppointmentFilter statusOptions={statusOptions} services={services} users={users} />
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-between">
                     <div className="flex gap-x-4">
                         <Header text="Appointments" />
                         <Search
@@ -75,6 +82,7 @@ export default function Index({ appointments }) {
                             count={appointments.meta.total}
                         />
                     </div>
+                    </div>
                     {/* <div className="flex justify-end">
                         <Button variant="default" onClick={handleCreate}>
                             Create Service
@@ -84,6 +92,7 @@ export default function Index({ appointments }) {
             }
         >
             <Head title="Appointments" />
+
             <div className="flex flex-col items-center justify-center px-12">
                 <DataTable
                     data={appointments.data}

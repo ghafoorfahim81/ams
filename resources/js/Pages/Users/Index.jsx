@@ -90,10 +90,7 @@ export default function Index({ users }) {
                 );
             },
         },
-        {
-            key: "created_by",
-            header: trans("admin:Created_By"),
-        },
+
     ];
 
     const validLinks =

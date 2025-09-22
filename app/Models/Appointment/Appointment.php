@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\HasSearch;
+use App\Traits\HasFilters;
 use App\Traits\HasSorting;
 use App\Traits\HasUserAuditable;
 use App\Traits\HasUserTracking;
 
 class Appointment extends Model
 {
-    use HasFactory, HasRoles, HasSearch, HasSorting, HasUserAuditable, HasUserTracking, Notifiable;
+    use HasFactory, HasRoles, HasSearch, HasFilters, HasSorting, HasUserAuditable, HasUserTracking, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -64,8 +65,32 @@ class Appointment extends Model
             'end_time',
             'postal_address',
             'notes',
+            'service.name',
+            'bookedByUser.email',
         ];
     }
+
+    /**
+     * Attributes that can be filtered via query string
+     * Supports relation columns using dot notation per HasFilters
+     *
+     * Available filters:
+     * - code
+     * - booked_by_user_id
+     * - status
+     * - type
+     * - name (service.name)
+     * - email (bookedByUser.email)
+     */
+    protected static array $filterableAttributes = [
+        'code',
+        'booked_by_user_id',
+        'service_id',
+        'status',
+        'type',
+        'service.name',
+        'bookedByUser.email',
+    ];
 
 
     public function service(): BelongsTo

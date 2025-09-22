@@ -9,6 +9,7 @@ use App\Http\Resources\Appointment\AppointmentCollection;
 use App\Http\Resources\Appointment\AppointmentResource;
 use App\Models\Appointment\Appointment;
 use App\Models\Service\Service;
+use App\Enums\Status;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -16,12 +17,28 @@ class AppointmentController extends Controller
 {
     public function index(Request $request)
     {
-        $appointments = Appointment::with('service')->search($request->query('q'))
+        $appointments = Appointment::with(['service'])
+            ->search($request->query('q'))
+            ->filter($request->all())
+            ->when($request->filled('date_from') || $request->filled('date_to'), function ($query) use ($request): void {
+                $start = $request->input('date_from');
+                $end = $request->input('date_to');
+                if ($start && $end) {
+                    $query->whereBetween('scheduled_date', [$start, $end]);
+                } elseif ($start) {
+                    $query->whereDate('scheduled_date', '>=', $start);
+                } elseif ($end) {
+                    $query->whereDate('scheduled_date', '<=', $end);
+                }
+            })
             ->sort($request->sort_by)
             ->paginate();
 
         return inertia('Admin/Appointments/Index', [
             'appointments' => $appointments->toResourceCollection(),
+            'statusOptions' => collect(Status::cases())->map(fn($s) => ['id' => $s->value, 'name' => $s->getLabel()]),
+            'services' => Service::query()->where('is_active', true)->orderBy('name')->get(['id', 'name']),
+            'users' => \App\Models\User::query()->orderBy('full_name')->take(50)->get(['id', 'full_name as name']),
         ]);
     }
 
