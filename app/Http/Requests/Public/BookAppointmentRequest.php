@@ -7,7 +7,7 @@ use App\Models\UserPostalCode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
-class StoreAppointmentRequest extends FormRequest
+class BookAppointmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,19 +21,21 @@ class StoreAppointmentRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      */
-    public function rules(): array
+   public function rules(): array
     {
         return [
             'service_id' => ['required', 'exists:services,id'],
             'slot_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'start_time' => ['required', 'date_format:H:i:s'],
             
-            // Validate the participant list (must have at least one)
             'participants' => ['required', 'array', 'min:1'], 
             'participants.*.full_name' => ['required', 'string', 'max:255'],
             'participants.*.relation' => ['nullable', 'string', 'max:100'],
+            'participants.*.identification_number' => ['required', 'string', 'max:50'], // Added for professional data collection
+            'notes' => ['nullable', 'string', 'max:1000'], // Added for completeness
         ];
     }
+    
 
     
     public function after(): array
@@ -41,16 +43,13 @@ class StoreAppointmentRequest extends FormRequest
         return [
             function (Validator $validator) {
                 if ($validator->errors()->isNotEmpty()) {
-                    return; // Skip complex checks if basic validation failed
+                    return;
                 }
                 
                 // 1. Check User's Postal Code Restriction (Day 6 Rule)
                 $this->validatePostalCode($validator);
-                
-                // 2. Check Slot Availability (Slot and Time validation)
-                // NOTE: Detailed availability, capacity decrement, and holiday checks 
-                // are best done in a **dedicated Booking Service Class** within a transaction
-                // to prevent race conditions during the final booking submission.
+
+                // NOTE: Appointment Limit checks are now in the BookingService to fail immediately before the transaction.
             },
         ];
     }
@@ -67,12 +66,13 @@ class StoreAppointmentRequest extends FormRequest
             return;
         }
 
-        $isPermitted = PostalCode::where('code', $userPostalCode->postal_code)
+        $isPermitted = PostalCode::where('code', $userPostalCode->code) 
                                  ->where('is_permitted', true)
                                  ->exists();
 
         if (!$isPermitted) {
-            $message = 'Your postal code is not within our current service coverage zone.';
+            // Use the exact message required by the SRS
+            $message = 'We apologize, but our services are currently only available within specific areas. Your postal code is not within our current coverage zone.';
             $validator->errors()->add('postal_code', $message);
         }
     }

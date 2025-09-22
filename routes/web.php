@@ -5,10 +5,28 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicBooking\PublicBookingController;
+use Inertia\Inertia;
 
-Route::redirect('/', 'login');
+// Public Routes - Unauthenticated users can access these
+Route::group([], function () {
+    Route::get('/', function () {
+        return Inertia::render('Public/Welcome');
+    })->name('welcome');
+    Route::post('/switch-locale', [LanguageController::class, 'switch'])->name('language.switch');
+});
 
+// Authenticated Routes - Login required
 Route::middleware('auth')->group(function (): void {
+
+    // All booking routes are now protected
+    Route::prefix('book')->name('book.')->group(function () {
+        Route::get('/', [PublicBookingController::class, 'create'])->name('create');
+        Route::get('slots', [PublicBookingController::class, 'getAvailableSlots'])->name('slots');
+        Route::post('/', [PublicBookingController::class, 'store'])->name('store');
+        Route::get('confirmation/{appointment}', [PublicBookingController::class, 'confirmation'])->name('confirmation');
+    });
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -33,7 +51,6 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/users/{user}/revoke-permission', [App\Http\Controllers\RolePermission\UserRolePermissionController::class, 'revokePermission']);
 
     // Administration
-
     Route::get('/get-locale', [LanguageController::class, 'getLocale'])->name('language.get');
     Route::get('/search-items', SearchController::class)->name('search.items');
     Route::get('/directorates/{id}/users', [DirectorateController::class, 'getUsersByDirectorate'])->name('directorate.users');
@@ -59,7 +76,5 @@ Route::middleware('auth')->group(function (): void {
         'message' => 'Route Not Found, Please check the URL and try again',
     ], 404));
 });
-
-Route::post('/switch-locale', [LanguageController::class, 'switch'])->name('language.switch');
 
 require __DIR__ . '/auth.php';

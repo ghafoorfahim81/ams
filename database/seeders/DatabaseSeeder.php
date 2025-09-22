@@ -7,6 +7,7 @@ use Database\Seeders\Service\ServiceSeeder;
 use Database\Seeders\Appointment\AppointmentSeeder;
 use Database\Seeders\PostalCode\PostalCodeSeeder;
 use Database\Seeders\Holiday\HolidaySeeder;
+use Database\Seeders\Appointment\AppointmentDataSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,7 +28,9 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             AppointmentSeeder::class,
             PostalCodeSeeder::class,
-            HolidaySeeder::class
+            HolidaySeeder::class,
+            AppointmentDataSeeder::class,
+
         ]);
 
         $user->assignRole('super_admin');

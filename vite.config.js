@@ -10,4 +10,10 @@ export default defineConfig({
         }),
         react(),
     ],
+
+    resolve: {
+        alias: {
+            '@': '/resources/js', // Standard alias for the resources/js root
+        },
+    },
 });
