@@ -51,7 +51,7 @@ class AppointmentController extends Controller
 
     public function show(Request $request, Appointment $appointment)
     {
-        $appointment->load(['service', 'participants']);
+        $appointment->load(['service', 'participants', 'bookedByUser', 'registarUser']);
         return new AppointmentResource($appointment);
     }
 

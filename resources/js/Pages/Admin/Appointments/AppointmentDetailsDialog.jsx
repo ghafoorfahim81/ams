@@ -22,6 +22,7 @@ export default function AppointmentDetailsDialog({ isOpen, onOpenChange, appoint
             .then((r) => r.json())
             .then((data) => setAppointment(data?.data ?? data))
             .finally(() => setLoading(false));
+        console.log('this is appointment',appointment)
     }, [isOpen, appointmentId]);
 
     return (
@@ -37,6 +38,7 @@ export default function AppointmentDetailsDialog({ isOpen, onOpenChange, appoint
                     <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <Detail label="Code" value={appointment.code} />
+                            <Detail label="Booked by" value={appointment.bookedByUser?.full_name} />
                             <Detail label="Service" value={appointment.service?.name} />
                             <Detail label="Type" value={appointment.type} />
                             <Detail label="Status" value={appointment.status} />

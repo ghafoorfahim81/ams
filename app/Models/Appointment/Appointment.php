@@ -100,7 +100,7 @@ class Appointment extends Model
 
     public function bookedByUser(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(\App\Models\User::class, 'booked_by_user_id');
     }
 
     public function registarUser(): BelongsTo
