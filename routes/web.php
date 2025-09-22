@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/notifications/unread-count', [App\Http\Controllers\NotificationController::class, 'unreadCount']);
 
     Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
+    Route::get('/appointments/calendar', [App\Http\Controllers\Appointment\AppointmentController::class, 'calendar'])->name('appointments.calendar');
+    Route::get('/appointments/events', [App\Http\Controllers\Appointment\AppointmentController::class, 'events'])->name('appointments.events');
     Route::resource('appointments', App\Http\Controllers\Appointment\AppointmentController::class);
     Route::resource('postal-codes', App\Http\Controllers\PostalCode\PostalCodeController::class);
     Route::resource('holidays', App\Http\Controllers\Holiday\HolidayController::class);

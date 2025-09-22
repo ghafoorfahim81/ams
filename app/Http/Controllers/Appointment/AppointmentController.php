@@ -85,4 +85,45 @@ class AppointmentController extends Controller
         $appointment->update(['status' => 'canceled']);
         return redirect()->back();
     }
+
+    public function calendar(Request $request)
+    {
+        return inertia('Admin/Appointments/Calendar');
+    }
+
+    public function events(Request $request)
+    {
+        $start = $request->query('start');
+        $end = $request->query('end');
+
+        $appointments = Appointment::with(['service'])
+            ->when($start && $end, function ($query) use ($start, $end) {
+                $query->whereDate('scheduled_date', '>=', $start)
+                    ->whereDate('scheduled_date', '<=', $end);
+            })
+            ->orderBy('scheduled_date')
+            ->limit(1000)
+            ->get();
+
+        $events = $appointments->map(function ($appointment) {
+            $date = optional($appointment->scheduled_date)->format('Y-m-d');
+            $startTime = $appointment->start_time ? $appointment->start_time : '00:00:00';
+            $endTime = $appointment->end_time ? $appointment->end_time : $startTime;
+
+            return [
+                'id' => $appointment->id,
+                'title' => trim(($appointment->service->name ?? 'Appointment') . ' ' . ($appointment->code ? '(' . $appointment->code . ')' : '')),
+                'start' => $date . 'T' . $startTime,
+                'end' => $date . 'T' . $endTime,
+                'extendedProps' => [
+                    'status' => $appointment->status,
+                    'type' => $appointment->type,
+                    'service' => $appointment->service->name ?? null,
+                    'code' => $appointment->code,
+                ],
+            ];
+        });
+
+        return response()->json($events);
+    }
 }

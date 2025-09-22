@@ -82,6 +82,11 @@ export default function Index({ appointments, statusOptions = [], services = [],
                             count={appointments.meta.total}
                         />
                     </div>
+                    <div className="flex items-center gap-2">
+                        <Link href={route('appointments.calendar')}>
+                            <Button variant="default">Calendar View</Button>
+                        </Link>
+                    </div>
                     </div>
                     {/* <div className="flex justify-end">
                         <Button variant="default" onClick={handleCreate}>
