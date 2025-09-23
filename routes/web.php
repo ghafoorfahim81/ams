@@ -63,11 +63,11 @@ Route::middleware('auth')->group(function (): void {
     Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
     Route::get('/appointments/calendar', [App\Http\Controllers\Appointment\AppointmentController::class, 'calendar'])->name('appointments.calendar');
     Route::get('/appointments/events', [App\Http\Controllers\Appointment\AppointmentController::class, 'events'])->name('appointments.events');
+    Route::get('/appointments/report', [App\Http\Controllers\Appointment\AppointmentController::class, 'report'])->name('appointments.report');
     Route::resource('appointments', App\Http\Controllers\Appointment\AppointmentController::class);
     Route::resource('postal-codes', App\Http\Controllers\PostalCode\PostalCodeController::class);
     Route::resource('holidays', App\Http\Controllers\Holiday\HolidayController::class);
     Route::post('/appointments/{appointment}/cancel', [App\Http\Controllers\Appointment\AppointmentController::class, 'cancel'])->name('appointments.cancel');
-
     // Audit Logs
     Route::get('/logs', [App\Http\Controllers\Audit\AuditLogController::class, 'index'])->name('logs.index');
     Route::get('/logs/{log}', [App\Http\Controllers\Audit\AuditLogController::class, 'show'])->name('logs.show');

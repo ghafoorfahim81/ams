@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Appointment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Appointment\AppointmentStoreRequest;
 use App\Http\Requests\Appointment\AppointmentUpdateRequest;
-use App\Http\Resources\Appointment\AppointmentCollection;
 use App\Http\Resources\Appointment\AppointmentResource;
 use App\Models\Appointment\Appointment;
 use App\Models\Service\Service;
 use App\Enums\Status;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class AppointmentController extends Controller
 {
     public function index(Request $request)
@@ -125,5 +123,18 @@ class AppointmentController extends Controller
         });
 
         return response()->json($events);
+    }
+
+    public function report(Request $request)
+    {
+        $filters = $request->all();
+        $appointments = Appointment::with(['service', 'bookedByUser'])
+            ->filter($filters)
+            ->orderBy('scheduled_date')
+            ->limit(1000)
+            ->get(); 
+        $data = ['appointments' => $appointments->toResourceCollection()];
+        return Pdf::loadView('appointments.report', $data)
+              ->download('document.pdf');
     }
 }

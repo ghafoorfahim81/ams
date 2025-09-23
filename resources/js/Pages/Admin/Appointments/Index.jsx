@@ -31,13 +31,6 @@ export default function Index({ appointments, statusOptions = [], services = [],
 
     const { toast } = useToast();
 
-    function handleCreate() {
-        setIsEditing(false);
-        setEditAppointmentId(null);
-        reset();
-        clearErrors();
-        setIsDialogOpen(true);
-    }
 
     function handleEdit(appointment) {
         router.visit(route("appointments.edit", appointment.id));
@@ -59,6 +52,7 @@ export default function Index({ appointments, statusOptions = [], services = [],
         setDetailsOpen(true);
     }
     const validLinks = appointments.meta?.links?.filter(link => link !== null && link.url !== null) ?? [];
+
 
     return (
         <AuthenticatedLayout
@@ -86,6 +80,7 @@ export default function Index({ appointments, statusOptions = [], services = [],
                         <Link href={route('appointments.calendar')}>
                             <Button variant="default">Calendar View</Button>
                         </Link>
+                        
                     </div>
                     </div>
                     {/* <div className="flex justify-end">

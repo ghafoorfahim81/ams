@@ -6,7 +6,7 @@ import { Button } from "@/Components/ui/button.jsx";
 import { Input } from "@/Components/ui/input.jsx";
 import { Label } from "@/Components/ui/label.jsx";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select.jsx";
-
+import { Download } from "lucide-react";
 export default function AppointmentFilter({ statusOptions = [], services = [], users = [] }) {
     const { url } = usePage();
     const searchParams = useMemo(() => new URLSearchParams(url.split("?")[1]), [url]);
@@ -65,6 +65,10 @@ export default function AppointmentFilter({ statusOptions = [], services = [], u
             preserveState: true,
             preserveScroll: true,
         });
+    };
+
+    const handlePDFDownload = () => {
+        window.location.href = `/appointments/report`   + "?" + new URLSearchParams(filters).toString();
     };
 
     return (
@@ -161,6 +165,10 @@ export default function AppointmentFilter({ statusOptions = [], services = [], u
                             <Button onClick={applyFilters} disabled={!hasActiveFilters} className="flex items-center gap-2">
                                 <Filter className="h-4 w-4" />
                                 Apply Filters
+                            </Button>
+                            <Button onClick={handlePDFDownload} disabled={!hasActiveFilters} className="flex items-center gap-2">
+                                <Download className="h-4 w-4" />
+                                Download PDF
                             </Button>
                         </div>
                     </AccordionContent>
