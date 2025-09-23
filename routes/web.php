@@ -7,6 +7,7 @@ use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicBooking\PublicBookingController;
 use Inertia\Inertia;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 // Public Routes - Unauthenticated users can access these
 Route::group([], function () {
@@ -14,6 +15,14 @@ Route::group([], function () {
         return Inertia::render('Public/Welcome');
     })->name('welcome');
     Route::post('/switch-locale', [LanguageController::class, 'switch'])->name('language.switch');
+});
+
+// Guest Routes - Only unauthenticated users can access these
+Route::middleware('guest')->group(function (): void {
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::get('register/verify-otp', [RegisteredUserController::class, 'showOtpVerificationForm'])->name('register.verify_otp');
+    Route::post('verify-otp', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp');
 });
 
 // Authenticated Routes - Login required
