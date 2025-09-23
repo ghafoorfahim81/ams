@@ -10,7 +10,8 @@ import {
     User,
     FileChartColumn,
     MapPinPlus,
-    CalendarCog
+    CalendarCog,
+    FileText
 } from "lucide-react";
 import { NavMain } from "./NavMain";
 import { trans } from "@/lib/utils";
@@ -107,6 +108,12 @@ export function AppSidebar({ ...props }) {
                 name:  "Holidays" ,
                 url: "/holidays",
                 icon: CalendarCog,
+                canView: true,
+            },
+            {
+                name:  "Logs" ,
+                url: route('logs.index'),
+                icon: FileText,
                 canView: true,
             },
         ],

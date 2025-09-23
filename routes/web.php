@@ -68,6 +68,10 @@ Route::middleware('auth')->group(function (): void {
     Route::resource('holidays', App\Http\Controllers\Holiday\HolidayController::class);
     Route::post('/appointments/{appointment}/cancel', [App\Http\Controllers\Appointment\AppointmentController::class, 'cancel'])->name('appointments.cancel');
 
+    // Audit Logs
+    Route::get('/logs', [App\Http\Controllers\Audit\AuditLogController::class, 'index'])->name('logs.index');
+    Route::get('/logs/{log}', [App\Http\Controllers\Audit\AuditLogController::class, 'show'])->name('logs.show');
+
     Route::get('/broadcast', function () {
         $message = 'Hello from the server';
         broadcast(new \App\Events\DocumentOverdue($message));

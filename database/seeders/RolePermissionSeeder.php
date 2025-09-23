@@ -21,6 +21,7 @@ class RolePermissionSeeder extends Seeder
             'postal_codes',
             'holidays',
             'audits',
+            'logs',
         ];
 
         // Define actions
@@ -32,6 +33,8 @@ class RolePermissionSeeder extends Seeder
         foreach ($resources as $resource) {
             if ($resource === 'reports') {
                 $permissions[] = 'view_list_reports'; // Only this action for reports
+            } else if ($resource === 'logs') {
+                $permissions[] = 'view_list_logs'; // Only this action for logs
             } else {
                 foreach ($actions as $action) {
                     $permissions[] = "{$action}_{$resource}";
