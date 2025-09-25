@@ -120,7 +120,8 @@ class RegisteredUserController extends Controller
 
         // Redirect based on role using Spatie
         if (Auth::user()->hasRole('applicant')) {
-            return redirect()->route('applicant.dashboard');
+            // Updated to use the correct route name
+            return redirect()->route('my-dashboard');
         }
 
         // Default redirect for other roles
