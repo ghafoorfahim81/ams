@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'; // Assuming standard layout
+import ApplicantLayout from '@/Layouts/ApplicantLayout'; // This is the corrected import
 import { useForm, Head } from '@inertiajs/react';
 import { Separator } from '@/Components/ui/separator';
 import { Progress } from '@/Components/ui/progress'; // ShadCN component for progress bar
@@ -60,7 +60,7 @@ const Create = ({ services, auth }) => {
             return;
         }
 
-        // POST to the store endpoint defined in PublicBookingController
+        // POST to the store endpoint defined in ApplicantController
         post(route('book.store'), {
             onSuccess: () => {
                 // Handled by controller redirect to confirmation page
@@ -122,7 +122,7 @@ const Create = ({ services, auth }) => {
     const progressValue = ((step - 1) / (steps.length - 1)) * 100;
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Book Appointment</h2>}>
+        <ApplicantLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Book Appointment</h2>}>
             <Head title="Book Appointment" />
             <div className="py-12">
                 <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
@@ -143,7 +143,7 @@ const Create = ({ services, auth }) => {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </ApplicantLayout>
     );
 };
 

@@ -10,7 +10,6 @@ class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
-
         // Define resources
         $resources = [
             'user_management',
@@ -52,7 +51,9 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $editor = Role::firstOrCreate(['name' => 'editor']);
         $user = Role::firstOrCreate(['name' => 'user']);
-
+        
+        $applicant = Role::firstOrCreate(['name' => 'applicant']);
+        
         // Assign all permissions to Super Admin
         $superAdmin->givePermissionTo(Permission::all());
 
@@ -105,11 +106,16 @@ class RolePermissionSeeder extends Seeder
         })->where('name', '!=', 'view_list_reports')->get();
         $user->syncPermissions($userPermissions);
 
+        // 🚀 Assign a view permission to the applicant role
+        $applicantPermissions = Permission::whereIn('name', ['view_list_appointments'])->get();
+        $applicant->syncPermissions($applicantPermissions);
+
         // Assign only 'view_list_reports' permission for reports to all roles
-        Permission::where('name', 'view_list_reports')->each(function ($permission) use ($admin, $editor, $user) {
+        Permission::where('name', 'view_list_reports')->each(function ($permission) use ($admin, $editor, $user, $applicant) {
             $admin->givePermissionTo($permission);
             $editor->givePermissionTo($permission);
             $user->givePermissionTo($permission);
+            $applicant->givePermissionTo($permission); // Assign to applicant as well
         });
     }
 }

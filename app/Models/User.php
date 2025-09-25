@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Appointment\Appointment; 
+
 
 class User extends Authenticatable
 {
@@ -74,5 +77,11 @@ class User extends Authenticatable
     public function directorate()
     {
         return $this->employee?->directorate;
+    }
+
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'booked_by_user_id');
     }
 }

@@ -26,12 +26,19 @@ class HandleInertiaRequests extends Middleware
 
     public function share(Request $request): array
     {
+        // This is the core update. We are now sharing the user's roles in addition to their permissions.
+        $user = $request->user();
 
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
-                'user_permissions' => $request->user()?->getAllPermissions()->pluck('name')->toArray(),
+                'user' => $user ? [
+                    'id' => $user->id,
+                    'full_name' => $user->full_name,
+                    'email' => $user->email,
+                    'roles' => $user->roles->pluck('name')->toArray(), // Added this line
+                    'user_permissions' => $user->getAllPermissions()->pluck('name')->toArray(),
+                ] : null,
             ],
             ...$this->getCachedModelData(),
             ...$this->getCachedEnumData(),

@@ -9,6 +9,8 @@ use App\Observers\AppointmentObserver;
 use App\Services\AuditLogger;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Routing\Router; 
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+         $this->app['router']->aliasMiddleware('role', \Spatie\Permission\Middleware\RoleMiddleware::class);
+        $this->app['router']->aliasMiddleware('permission', \Spatie\Permission\Middleware\PermissionMiddleware::class);
     }
 
     /**

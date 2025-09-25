@@ -45,6 +45,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Assign the 'applicant' role using the Spatie package
+        $user->assignRole('applicant');
+
         // Generate and store OTP
         $otp_code = rand(100000, 999999);
         Otp::create([
@@ -65,18 +68,16 @@ class RegisteredUserController extends Controller
      */
     public function showOtpVerificationForm(): \Inertia\Response
     {
-        // Retrieve data from session and clear the flash data
         $mobile_number = session('mobile_number');
         $otp = session()->get('otp_code');
 
         if (!$mobile_number) {
-            // If the user lands here without registering, redirect them back
             return redirect()->route('register');
         }
 
         return Inertia::render('Auth/VerifyOtp', [
             'mobile_number' => $mobile_number,
-            'otp' => $otp, // Pass the testing OTP to the frontend
+            'otp' => $otp,
         ]);
     }
 
@@ -105,17 +106,24 @@ class RegisteredUserController extends Controller
             return back()->withErrors(['otp' => 'Invalid or expired OTP.']);
         }
 
-        // Mark the user as verified
         $user->mobile_verified_at = Carbon::now();
         $user->save();
 
-        // Delete the used OTP
         $otp->delete();
 
-        // Log the user in and redirect
+        // Log the user in
         Auth::login($user);
         event(new Registered($user));
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // 🚀 CRITICAL FIX: Reload the user object to ensure roles are loaded
+        Auth::user()->load('roles');
+
+        // Redirect based on role using Spatie
+        if (Auth::user()->hasRole('applicant')) {
+            return redirect()->route('applicant.dashboard');
+        }
+
+        // Default redirect for other roles
+        return redirect()->intended(route('dashboard'));
     }
 }
