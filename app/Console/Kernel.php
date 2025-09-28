@@ -8,8 +8,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    protected $commands = [
-        \App\Console\Commands\CheckDocumentDeadlines::class,
+    protected $commands = [ 
         ScheduleListCommand::class, // ✅ Add this line
     ];
 
@@ -18,9 +17,6 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('backup:run')->daily()->at('14:12')->timezone('Asia/Kabul');
 
-        $schedule->command('document:check-deadlines')
-            ->everySixHours()
-            ->timezone('Asia/Kabul');
     }
 
     protected function commands()

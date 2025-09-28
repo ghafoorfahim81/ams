@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\DirectorateController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
@@ -62,8 +61,7 @@ Route::middleware('auth')->group(function (): void {
     // Administration
     Route::get('/get-locale', [LanguageController::class, 'getLocale'])->name('language.get');
     Route::get('/search-items', SearchController::class)->name('search.items');
-    Route::get('/directorates/{id}/users', [DirectorateController::class, 'getUsersByDirectorate'])->name('directorate.users');
-
+ 
     Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
     Route::post('/notifications/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead']);
 
