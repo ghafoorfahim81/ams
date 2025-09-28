@@ -26,6 +26,7 @@ class ServiceStoreRequest extends FormRequest
             'is_active' => ['required'],
             'description' => ['nullable', 'string'],
             'is_emergency' => ['required'],
+            'service_category_id' => ['nullable', 'integer', 'exists:service_categories,id'],
         ];
     }
 }

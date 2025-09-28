@@ -18,7 +18,7 @@ class SearchController extends Controller
         $query = $request->q;
         $resource = $request->resource;
 
-        $allowedResources = ['organizations', 'directorates', 'employees', 'external_organizations'];
+        $allowedResources = ['service_categories'];
 
         if (! in_array($resource, $allowedResources)) {
             throw ValidationException::withMessages(['resource' => 'Invalid resource.']);
@@ -29,7 +29,7 @@ class SearchController extends Controller
         }
 
         try {
-            $searchColumn = $resource === 'directorates' ? "name_{$locale}" : 'name';
+            $searchColumn = $resource === 'name';
 
             $items = DB::table($resource)
                 ->where($searchColumn, 'like', "%{$query}%")
@@ -39,7 +39,7 @@ class SearchController extends Controller
             return $items->map(fn($item): array => [
                 'id' => $item->id,
                 'name' => $resource === 'directorates'
-                    ? $item->{"name_{$locale}"}
+                    ? $item->{"name"}
                     : ($resource === 'employees'
                         ? "{$item->name} {$item->last_name}"
                         : $item->name),

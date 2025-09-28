@@ -15,7 +15,7 @@ import { useSort } from "@/hooks/use-sort.js";
 import {usePermissions} from "@/hooks/use-permissions.js";
 import PageHeader from "@/Components/PageHeader.jsx";
 
-export default function Index({ services }) {
+export default function Index({ services, service_categories }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editServiceId, setEditServiceId] = useState(null);
@@ -40,6 +40,7 @@ export default function Index({ services }) {
             is_active: true,
             description: "",
             is_emergency: false,
+            service_category_id: "",
         });
 
         const createdMessage = "Service Created Successfully";
@@ -104,6 +105,7 @@ export default function Index({ services }) {
             is_active: service.is_active,
             description: service.description,
             is_emergency: service.is_emergency,
+            service_category_id: service.service_category_id ?? "",
         });
         setIsDialogOpen(true);
     }
@@ -158,6 +160,7 @@ export default function Index({ services }) {
                         { key: "is_active", header: "Status" },
                         { key: "description", header: "Description" },
                         { key: "is_emergency", header: "Emergency?" },
+                        { key: "service_category_name", header: "Category" },
                     ]}
                     actions={[
                         {
@@ -202,6 +205,7 @@ export default function Index({ services }) {
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 processing={processing}
+                serviceCategories={service_categories.data}
             />
         </AuthenticatedLayout>
     );

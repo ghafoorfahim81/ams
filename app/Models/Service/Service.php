@@ -4,7 +4,6 @@ namespace App\Models\Service;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\HasSearch;
@@ -29,6 +28,7 @@ class Service extends Model
         'is_active',
         'description',
         'is_emergency',
+        'service_category_id',
         'created_by',
         'updated_by',
     ];
@@ -53,5 +53,10 @@ class Service extends Model
             'is_active' => 'boolean',
             'is_emergency' => 'boolean',
         ];
+    }
+
+    public function serviceCategory()
+    {
+        return $this->belongsTo(ServiceCategory::class);
     }
 }

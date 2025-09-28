@@ -87,6 +87,12 @@ export function AppSidebar({ ...props }) {
                 canView: true,
             },
             {
+                name: "Services categories",
+                url: "/service-categories",
+                icon: FileChartColumn,
+                canView: hasPermission("view_list_services"),
+            },
+            {
                 name: "Services",
                 url: "/services",
                 icon: FileChartColumn,

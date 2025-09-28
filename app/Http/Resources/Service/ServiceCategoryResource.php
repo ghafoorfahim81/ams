@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\HR;
+namespace App\Http\Resources\Service;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DirectorateResource extends JsonResource
+class ServiceCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,7 +14,11 @@ class DirectorateResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->{'name_'.app()->getLocale()},
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'description' => $this->description,
         ];
     }
 }
+
+

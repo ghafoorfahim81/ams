@@ -15,7 +15,8 @@ class ServiceController extends Controller
 {
     public function index(Request $request)
     {
-        $services = Service::search($request->query('q'))
+        $services = Service::with('serviceCategory')
+            ->search($request->query('q'))
             ->sort($request->sort_by)
             ->paginate();
 
@@ -32,7 +33,7 @@ class ServiceController extends Controller
 
     public function show(Request $request, Service $service)
     {
-        return $service->toResource();
+        return $service->load('serviceCategory')->toResource(ServiceResource::class);
     }
 
     public function update(ServiceUpdateRequest $request, Service $service)

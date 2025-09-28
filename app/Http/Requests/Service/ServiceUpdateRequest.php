@@ -4,6 +4,9 @@ namespace App\Http\Requests\Service;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @method mixed route(string|null $name = null)
+ */
 class ServiceUpdateRequest extends FormRequest
 {
     /**
@@ -26,6 +29,7 @@ class ServiceUpdateRequest extends FormRequest
             'is_active' => ['required'],
             'description' => ['nullable', 'string'],
             'is_emergency' => ['required'],
+            'service_category_id' => ['nullable', 'integer', 'exists:service_categories,id'],
         ];
     }
 }

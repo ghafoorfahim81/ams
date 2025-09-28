@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Enums\{Status, Type};
-use App\Http\Resources\Administration\{DocumentTypeResource, ExternalOrganizationResource, SecurityLevelResource};
-use App\Http\Resources\HR\{DirectorateResource, EmployeeResource};
-use App\Models\Administration\{DocumentType, ExternalOrganization, SecurityLevel};
-use App\Models\HR\{Directorate, Employee};
+use App\Http\Resources\Service\ServiceCategoryResource;
+use App\Models\Service\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
@@ -16,7 +14,11 @@ class HandleInertiaRequests extends Middleware
     protected $rootView = 'app';
 
     protected const MODEL_RESOURCE_MAP = [
-
+        'service_categories' => [
+            'model' => ServiceCategory::class,
+            'resource' => ServiceCategoryResource::class,
+            'limit' => 10,
+        ],
     ];
 
     public function version(Request $request): ?string

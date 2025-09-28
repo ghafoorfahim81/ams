@@ -9,9 +9,9 @@ import {
 import { Label } from "@/Components/ui/label.jsx";
 import { Input } from "@/Components/ui/input.jsx";
 import { Button } from "@/Components/ui/button.jsx";
-import Error from "@/Components/Error.jsx";
 import InputField from "@/Components/InputField.jsx";
 import TextareaField from "@/Components/TextareaField.jsx";
+import SelectField from "@/Components/SelectField.jsx";
 export default function ServiceDialog({
     isOpen,
     onOpenChange,
@@ -19,6 +19,7 @@ export default function ServiceDialog({
     data,
     errors,
     handleChange,
+    serviceCategories,
     handleSubmit,
     processing,
 }) {
@@ -34,6 +35,18 @@ export default function ServiceDialog({
                     </DialogTitle>
                 </DialogHeader>
                 <DialogDescription></DialogDescription>
+                <div className="grid gap-4">
+                        <SelectField
+                            id="service_category_id"
+                            label="Service Category"
+                            value={data.service_category_id}
+                            items={serviceCategories}
+                            placeholder="Select Category"
+                            error={errors.service_category_id}
+                            handleChange={handleChange}
+                            searchResource="service_categories"
+                        />
+                </div>
                 <div className="grid gap-4">
                         <InputField
                             id="name"
