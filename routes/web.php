@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/notifications/unread-count', [App\Http\Controllers\NotificationController::class, 'unreadCount']);
 
     Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
+    Route::resource('service-categories', App\Http\Controllers\Service\ServiceCategoryController::class);
     Route::get('/appointments/calendar', [App\Http\Controllers\Appointment\AppointmentController::class, 'calendar'])->name('appointments.calendar');
     Route::get('/appointments/events', [App\Http\Controllers\Appointment\AppointmentController::class, 'events'])->name('appointments.events');
     Route::get('/appointments/report', [App\Http\Controllers\Appointment\AppointmentController::class, 'report'])->name('appointments.report');

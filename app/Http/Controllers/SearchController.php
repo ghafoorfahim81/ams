@@ -18,7 +18,7 @@ class SearchController extends Controller
         $query = $request->q;
         $resource = $request->resource;
 
-        $allowedResources = ['organizations', 'directorates', 'employees', 'external_organizations'];
+        $allowedResources = ['organizations', 'directorates', 'employees', 'external_organizations', 'service_categories'];
 
         if (! in_array($resource, $allowedResources)) {
             throw ValidationException::withMessages(['resource' => 'Invalid resource.']);

@@ -20,6 +20,12 @@ class ServiceResource extends JsonResource
             'is_active' => $this->is_active ? trans("Active") : trans("Inactive"),
             'description' => $this->description,
             'is_emergency' => $this->is_emergency ? trans("Yes") : trans("No"),
+            'service_category_id' => $this->service_category_id,
+            'service_category' => $this->whenLoaded('serviceCategory', fn() => [
+                'id' => $this->serviceCategory?->id,
+                'name' => $this->serviceCategory?->name,
+            ]),
+            'service_category_name' => $this->whenLoaded('serviceCategory', fn() => $this->serviceCategory?->name),
         ];
     }
 }
