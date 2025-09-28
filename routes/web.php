@@ -94,9 +94,9 @@ Route::middleware('auth')->group(function (): void {
         Route::post('/users/{user}/assign-permission', [UserRolePermissionController::class, 'assignPermission']);
         Route::post('/users/{user}/revoke-permission', [UserRolePermissionController::class, 'revokePermission']);
         Route::get('/get-locale', [LanguageController::class, 'getLocale'])->name('language.get');
-        Route::get('/search-items', SearchController::class)->name('search.items');
-        Route::get('/directorates/{id}/users', [DirectorateController::class, 'getUsersByDirectorate'])->name('directorate.users');
+        Route::get('/search-items', SearchController::class)->name('search.items'); 
         Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
+        Route::resource('service-categories', App\Http\Controllers\Service\ServiceCategoryController::class);
 
         // This is the correct, professional way to handle the admin/registrar appointment list.
         // We define a dedicated route that points to the same `index` method as the applicant's.
@@ -111,29 +111,7 @@ Route::middleware('auth')->group(function (): void {
         Route::post('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel');
         Route::get('/logs', [App\Http\Controllers\Audit\AuditLogController::class, 'index'])->name('logs.index');
         Route::get('/logs/{log}', [App\Http\Controllers\Audit\AuditLogController::class, 'show'])->name('logs.show');
-        Route::get('/broadcast', function () {
-            $message = 'Hello from the server';
-            broadcast(new \App\Events\DocumentOverdue($message));
-            return response()->json(['message' => 'Broadcasting event']);
-        });
-    Route::resource('services', App\Http\Controllers\Service\ServiceController::class);
-    Route::resource('service-categories', App\Http\Controllers\Service\ServiceCategoryController::class);
-    Route::get('/appointments/calendar', [App\Http\Controllers\Appointment\AppointmentController::class, 'calendar'])->name('appointments.calendar');
-    Route::get('/appointments/events', [App\Http\Controllers\Appointment\AppointmentController::class, 'events'])->name('appointments.events');
-    Route::get('/appointments/report', [App\Http\Controllers\Appointment\AppointmentController::class, 'report'])->name('appointments.report');
-    Route::resource('appointments', App\Http\Controllers\Appointment\AppointmentController::class);
-    Route::resource('postal-codes', App\Http\Controllers\PostalCode\PostalCodeController::class);
-    Route::resource('holidays', App\Http\Controllers\Holiday\HolidayController::class);
-    Route::post('/appointments/{appointment}/cancel', [App\Http\Controllers\Appointment\AppointmentController::class, 'cancel'])->name('appointments.cancel');
-    // Audit Logs
-    Route::get('/logs', [App\Http\Controllers\Audit\AuditLogController::class, 'index'])->name('logs.index');
-    Route::get('/logs/{log}', [App\Http\Controllers\Audit\AuditLogController::class, 'show'])->name('logs.show');
 
-    Route::get('/broadcast', function () {
-        $message = 'Hello from the server';
-        broadcast(new \App\Events\DocumentOverdue($message));
-
-        return response()->json(['message' => 'Broadcasting event']);
     });
 
     Route::fallback(fn() => response()->json([
